@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import PhotoContextProvider from "./context/PhotoContext";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import Header from "./components/Header";
+import Item from "./components/Item";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PhotoContextProvider>
+      <HashRouter>
+        <div className="container">
+          <Header />
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={<Navigate to="/mountain" replace />}
+            />
+            <Route
+              exact
+              path="/mountain"
+              element={<Item searchTerm="mountain" />}
+            />
+            <Route exact path="/beach" element={<Item searchTerm="beach" />} />
+            <Route exact path="/bird" element={<Item searchTerm="bird" />} />
+            <Route exact path="/food" element={<Item searchTerm="food" />} />
+            <Route path="/search/:searchInput" element={<Item />} />
+            <Route element={<NotFound />} />
+          </Routes>
+        </div>
+      </HashRouter>
+    </PhotoContextProvider>
   );
 }
 
